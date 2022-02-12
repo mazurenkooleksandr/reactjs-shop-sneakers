@@ -1,12 +1,13 @@
 import React from "react";
 
-export default function Drawer() {
+export default function Drawer({ onClose, items = [] }) {
   return (
-    <div style={{ display: "none" }} className="overlay">
+    <div className="overlay">
       <div className="drawer">
         <h2 className="mb-30 d-flex justify-between ">
           Корзина
           <img
+            onClick={onClose}
             className="removeBtn cu-p"
             src="/img/btn-remove.svg"
             alt="remove"
@@ -14,28 +15,25 @@ export default function Drawer() {
         </h2>
 
         <div className="items">
-          <div className="cartItem d-flex aling-center mb-20">
-            <div
-              style={{ backgroundImage: "url(/img/sneakers/1.jpg)" }}
-              className="cartItemImg"
-            ></div>
-            <div className="mr-20 flex">
-              <p className="mb-5">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <b>12 999 руб.</b>
-            </div>
-            <img className="removeBtn" src="/img/btn-remove.svg" alt="remove" />
-          </div>
-          <div className="cartItem d-flex aling-center mb-20">
-            <div
-              style={{ backgroundImage: "url(/img/sneakers/1.jpg)" }}
-              className="cartItemImg"
-            ></div>
-            <div className="mr-20 flex">
-              <p className="mb-5">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <b>12 999 руб.</b>
-            </div>
-            <img className="removeBtn" src="/img/btn-remove.svg" alt="remove" />
-          </div>
+          {items.map((obj) => {
+            return (
+              <div className="cartItem d-flex aling-center mb-20">
+                <div
+                  style={{ backgroundImage: `url(${obj.imageURL})` }}
+                  className="cartItemImg"
+                ></div>
+                <div className="mr-20 flex">
+                  <p className="mb-5">{obj.name}</p>
+                  <b>{obj.price} руб.</b>
+                </div>
+                <img
+                  className="removeBtn"
+                  src="/img/btn-remove.svg"
+                  alt="remove"
+                />
+              </div>
+            );
+          })}
         </div>
         <div className="cartTotalBlock">
           <ul>
