@@ -17,7 +17,6 @@ body {
 }
 
 header {
-  border-bottom: 1px solid #eaeaea;
   img {
     margin-right: 15px;
   }
@@ -42,11 +41,48 @@ header {
   width: 32px;
   cursor: pointer;
 }
+.cartEmpty {
+  text-align: center;
+
+  p {
+    width: 280px;
+    line-height: 24px;
+  }
+
+  .greenButton {
+    width: 245px;
+    margin-top: 20px;
+
+    &:hover {
+      img {
+        transform: rotate(180deg) translateX(3px);
+      }
+    }
+
+    img {
+      position: relative;
+      top: 1px;
+      transform: rotate(180deg);
+      margin-right: 15px;
+      transition: transform 0.15s ease-in-out;
+    }
+  }
+}
 
 .search-block {
   border: 1px solid #f3f3f3;
   border-radius: 10px;
   padding: 0 15px;
+  position: relative;
+
+  .clear {
+    position: absolute;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    top: 13px;
+    right: 15px;
+  }
   input {
     border: 0;
     padding: 13px;
@@ -115,24 +151,23 @@ header {
       transition: transform 0.15s ease-in-out;
     }
   }
-
-  .greenButton {
-    width: 100%;
-    height: 55px;
-    background: #9dd558;
-    border-radius: 18px;
-    border: 0;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s easy-in-out;
-    &:hover {
-      background: lighten(#9dd558, 5%);
-    }
-    &:active {
-      background: darken(#9dd558, 5%);
-    }
+}
+.greenButton {
+  width: 100%;
+  height: 55px;
+  background: #9dd558;
+  border-radius: 18px;
+  border: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s easy-in-out;
+  &:hover {
+    background: lighten(#9dd558, 5%);
+  }
+  &:active {
+    background: darken(#9dd558, 5%);
   }
 }
 

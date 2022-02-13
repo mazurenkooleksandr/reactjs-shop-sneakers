@@ -1,49 +1,87 @@
 import React from "react";
-import Card from "./components/Card";
+
 import Drawer from "./components/Drawer";
 import Header from "./components/Header";
+import axios from "axios";
+import { Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Favorites from "./pages/Favorites";
 
 function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState("");
   const [cartOpened, setCartOpened] = React.useState(false);
+  const [favorites, setFavorites] = React.useState([]);
 
   const onAddToCart = (obj) => {
+    axios.post("http://localhost:3001/cart", obj);
     setCartItems((prev) => [...prev, obj]);
+    axios.get("http://localhost:3001/cart").then((res) => {
+      setCartItems(res.data);
+    });
+  };
+
+  const onRemoveItem = (id) => {
+    axios.delete(`http://localhost:3001/cart/${id}`);
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const onAddToFavorite = async (obj) => {
+    try {
+      if (favorites.find((item) => item.id === obj.id)) {
+        axios.delete(`http://localhost:3001/favorites/${obj.id}`);
+      } else {
+        const { data } = await axios.post(
+          "http://localhost:3001/favorites",
+          obj
+        );
+        setFavorites((prev) => [...prev, data]);
+      }
+    } catch (error) {
+      alert("Не удалось добавить в фавориты");
+    }
+  };
+
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value);
   };
 
   React.useEffect(() => {
-    fetch("https://6208076922c9e90017d32fec.mockapi.io/items")
-      .then((res) => res.json())
-      .then((item) => setItems(item));
+    axios.get("http://localhost:3001/items").then((res) => {
+      setItems(res.data);
+    });
+    axios.get("http://localhost:3001/favorites").then((res) => {
+      setFavorites(res.data);
+    });
+    //   axios.get("http://localhost:3001/cart").then((res) => {
+    //     setCartItems(res.data);
+    //   });
   }, []);
+
   return (
     <div className="wrapper clear">
       {cartOpened && (
-        <Drawer items={cartItems} onClose={() => setCartOpened(false)} />
+        <Drawer
+          items={cartItems}
+          onClose={() => setCartOpened(false)}
+          onRemove={onRemoveItem}
+        />
       )}
-
       <Header onClickCart={() => setCartOpened(true)} />
-      <div className="content p-40">
-        <div className="d-flex align-center justify-between mb-40">
-          <h1>Все кроссовки</h1>
-          <div className="search-block d-flex">
-            <img src="/img/search.svg" alt="search" />
-            <input placeholder="Поиск ... " />
-          </div>
-        </div>
-        <div className="d-flex flex-wrap">
-          {items.map((element) => (
-            <Card
-              name={element.name}
-              price={element.price}
-              imageURL={element.imageURL}
-              onFavorite={() => console.log("Добавили закладки")}
-              onPlus={(element) => onAddToCart(element)}
-            />
-          ))}
-        </div>
-      </div>
+      <Route path="/" exact>
+        <Home
+          items={items}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          onChangeSearchInput={onChangeSearchInput}
+          onAddToFavorite={onAddToFavorite}
+          onAddToCart={onAddToCart}
+        />
+      </Route>
+      <Route path="/favorites">
+        <Favorites items={favorites} onAddToFavorite={onAddToFavorite} />
+      </Route>
     </div>
   );
 }

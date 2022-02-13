@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "name": "1Кроссовки",
+      "price": "12345",
+      "imageURL": "./img/sneakers/1.jpg"
+    },
+    {
+      "name": "2Кроссовки",
+      "price": "12345",
+      "imageURL": "./img/sneakers/2.jpg"
+    },
+    {
+      "name": "3Кроссовки",
+      "price": "12345",
+      "imageURL": "./img/sneakers/3.jpg"
+    },
+    {
+      "name": "4Кроссовки",
+      "price": "12345",
+      "imageURL": "./img/sneakers/4.jpg"
+    },
+    {
+      "name": "5Кроссовки",
+      "price": "12345",
+      "imageURL": "./img/sneakers/5.jpg"
+    }
+  ],
+  "cart": [],
+  "favorites": []
+}
